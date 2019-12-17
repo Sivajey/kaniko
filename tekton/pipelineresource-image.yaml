@@ -6,4 +6,4 @@ spec:
   type: image
   params:
     - name: url
-      value: core.harbor.k8sdevops.site/demo/kaniko
+      value: core.harbor.k8sdevops.site/demo/kaniko:v1
