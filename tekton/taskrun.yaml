@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: kaniko-build
+spec:
+  serviceAccountName: bot
+  taskRef:
+    name: kaniko
+  inputs:
+    resources:
+      - name: source
+        resourceRef:
+          name: kaniko-git
+
+  outputs:
+    resources:
+      - name: image
+        resourceRef:
+          name: kaniko-image

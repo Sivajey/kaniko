@@ -1,0 +1,9 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: kaniko-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: core.harbor.k8sdevops.site/demo/kaniko

@@ -1,0 +1,5 @@
+resources:
+  - pipelineresource-git.yaml
+  - pipelineresource-image.yaml
+  - task.yaml
+  - taskrun.yaml

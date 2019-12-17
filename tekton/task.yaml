@@ -1,0 +1,42 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: kaniko
+spec:
+  inputs:
+    params:
+      - name: DOCKERFILE
+        description: Path to the Dockerfile to build.
+        default: /workspace/source/Dockerfile
+      - name: CONTEXT
+        description: The build context used by Kaniko.
+        default: /workspace/source
+    resources:
+      - name: source
+        type: git
+
+  outputs:
+    resources:
+      - name: image
+        type: image
+
+  steps:
+    - name: dockerfile-lint
+      image: hadolint/hadolint
+      command:
+        - hadolint
+      args:
+        - $(inputs.params.DOCKERFILE)
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor:debug-v0.13.0
+      # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
+      # https://github.com/tektoncd/pipeline/pull/706
+      env:
+        - name: DOCKER_CONFIG
+          value: /builder/home/.docker
+      command:
+        - /kaniko/executor
+      args:
+        - --dockerfile=$(inputs.params.DOCKERFILE)
+        - --context=$(inputs.params.CONTEXT) # The user does not need to care the workspace and the source.
+        - --destination=$(outputs.resources.image.url)
