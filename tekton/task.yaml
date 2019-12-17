@@ -7,7 +7,7 @@ spec:
     params:
       - name: DOCKERFILE
         description: Path to the Dockerfile to build.
-        default: /workspace/source/Dockerfile
+        default: /workspace/source/tekton/Dockerfile
       - name: CONTEXT
         description: The build context used by Kaniko.
         default: /workspace/source
